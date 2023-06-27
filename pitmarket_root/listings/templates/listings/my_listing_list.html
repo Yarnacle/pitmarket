@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+   Pit Market
+{% endblock title %}
+{% block metadata %}
+   <script src="{% static 'onclickHandler.js' %}" defer></script>
+{% endblock metadata %}
+{% block content %}
+   {% if filter %}<h1>{{ filter }}</h1>{% endif %}
+   {% if my_listings %}
+      <form method="post" action="{% url 'my-listing-list' %}">
+         <input type="submit" value="Delete" />
+			<br />
+			<br />
+         <table class="listing-table" border>
+            <colgroup>
+					<col class="checkbox-column" />
+               <col class="wide-column" />
+               <col class="wide-column" />
+               <col class="thin-column" />
+               <col class="thin-column" />
+            </colgroup>
+            <tbody>
+               <tr>
+                  <th></th>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Tags</th>
+                  <th>Date</th>
+               </tr>
+               {% for listing in my_listings %}
+                  <tr class="listing-row"
+                      data-url="{% url 'my-listing-detail' listing.id %}{% if page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}">
+                     <td class="checkbox-td">
+                        <input class="checkbox" type="checkbox" name="listings" value="{{ listing.id }}" />
+                     </td>
+                     <td>{{ listing.item }}</td>
+                     <td>{{ listing.price }}</td>
+                     <td>{{ listing.tags.names|join:", " }}</td>
+                     <td>{{ listing.list_date }}</td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+         {% csrf_token %}
+      </form>
+   {% else %}
+      <h1>Nothing</h1>
+   {% endif %}
+   {% if is_paginated %}
+      <br />
+      <div class="pagination">
+         <span class="page-links">
+            {% if page_obj.has_previous %}
+               <a href="{% url 'my-listing-list' %}?{% if filter %}filter={{ filter }}&{% endif %}page={{ page_obj.previous_page_number }}">&lt;&lt;</a>
+            {% endif %}
+            <span class="page-current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+               <a href="{% url 'my-listing-list' %}?{% if filter %}filter={{ filter }}&{% endif %}page={{ page_obj.next_page_number }}">&gt;&gt;</a>
+            {% endif %}
+         </span>
+      </div>
+   {% endif %}
+{% endblock content %}

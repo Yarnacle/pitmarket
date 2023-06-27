@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}
+   {{ listing.item }}
+{% endblock title %}
+{% block content %}
+   <a href="{% if back %}{% url 'my-listing-list' %}{% else %}{% url 'listing-list' %}{% endif %}{% if filter %}?filter={{ filter }}{% endif %}{% if page_number > 1 %}{% if filter %}&{% else %}?{% endif %}page={{ page_number }}{% endif %}">&lt;&lt; Back</a>
+	<br />
+   <br />
+   <table class="listing-detail-table">
+      <tr>
+         <td>
+            {% if listing.image %}
+               <a href="{{ listing.image.url }}" target="_blank">
+                  <img class="listing-img"
+                       src="{{ listing.image.url }}"
+                       width="auto"
+                       height="auto"
+                       alt="Attached image"/>
+               </a>
+            {% else %}
+               <h1>No image provided</h1>
+            {% endif %}
+         </td>
+         <td>
+            <h2 class="listing-title">{{ listing.item }}</h2>
+				<p>Sold by: {{ listing.username }}</p>
+				<hr />
+            <h2 class="price">Cost: {{ listing.price }}</h2>
+            <p>{{ listing.description }}</p>
+            <hr />
+            <h3>Contact: {{ listing.contact }}</h3>
+         </td>
+      </tr>
+   </table>
+{% endblock content %}

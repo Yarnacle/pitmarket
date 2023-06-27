@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta name="description" content="A cool market website." />
+      <meta name="keywords" content="market" />
+      <title>
+         {% block title %}
+            Error
+         {% endblock title %}
+      </title>
+      <link rel="icon" type="image/x-icon" href="{% static 'favicon.png' %}" />
+      <link href="{% static 'main.css' %}" rel="stylesheet" type="text/css" />
+		{% block metadata %}
+
+		{% endblock metadata %}
+   </head>
+   <body>
+      <div id="wrapper">
+         <header id="header">
+            <h1 id="logo">
+               <a href="{% url 'listing-list' %}">Pit Market</a>
+            </h1>
+            <div class="nav">
+               <ul>
+                  <li>
+                     <a href="{% url 'listing-request' %}"
+                        {% if current == 'sell' or next == '/sell/' %}class="current"{% endif %}>Sell</a>
+                  </li>
+                  <li>
+                     <a href="{% url 'contact' %}"
+                        {% if current == 'contact' %}class="current"{% endif %}>Contact</a>
+                  </li>
+               </ul>
+            </div>
+            <div class="nav" id="registration-nav">
+               <ul>
+						{% if user.is_authenticated %}
+							<li>
+								<span class="navbar-username">Logged in as {{ user.get_username }}</span>
+							</li>
+							<li>
+								<div class="vertical-line"></div>
+							</li>
+							<li>
+								<a href="{% url 'my-listing-list' %}" {% if current == 'my-listing-list' %}class="current"{% endif %}>My Listings</a>
+							</li>
+							<li>
+								<a href="{% url 'logout' %}">Log out</a>
+							</li>
+							{% else %}
+								<li>
+									<a href="{% url 'login' %}">Log in</a>
+								</li>
+							{% endif %}
+               </ul>
+
+            </div>
+         </header>
+         <div id="content">
+            {% block content %}
+               Error
+            {% endblock content %}
+         </div>
+         <div id="credit">Emotional support provided by katiebugg</div>
+      </div>
+   </body>
+</html>

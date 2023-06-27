@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+   Pit Market
+{% endblock title %}
+{% block metadata %}
+   <script src="{% static 'onclickHandler.js' %}" defer></script>
+{% endblock metadata %}
+{% block content %}
+   <form action="" method="post">
+      <input type="text" name="tags" placeholder="Tags" />
+      <input type="submit" value="Submit" />
+      {% csrf_token %}
+   </form>
+	<br />
+   {% if filter %}<h2>Filter: {{ filter }}</h2>{% endif %}
+   {% if all_listings %}
+      <table class="listing-table" border>
+         <colgroup>
+            <col class="wide-column" />
+            <col class="wide-column" />
+            <col class="thin-column" />
+            <col class="thin-column" />
+         </colgroup>
+			<tbody>
+				<tr>
+					<th>Item</th>
+					<th>Price</th>
+					<th>Tags</th>
+					<th>Date</th>
+				</tr>
+				{% for listing in all_listings %}
+					<tr class="listing-row" data-url="{% url 'listing-detail' listing.id %}{% if filter %}?filter={{ filter }}{% endif %}{% if page_obj.number > 1 %}{% if filter %}&{% else %}?{% endif %}page={{ page_obj.number }}{% endif %}">
+						<td>{{ listing.item }}</td>
+						<td>{{ listing.price }}</td>
+						<td>{{ listing.tags.names|join:", " }}</td>
+						<td>{{ listing.list_date }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+      </table>
+   {% else %}
+      <h1>Nothing</h1>
+   {% endif %}
+   {% if is_paginated %}
+      <br />
+      <div class="pagination">
+         <span class="page-links">
+            {% if page_obj.has_previous %}
+               <a href="{% url 'listing-list' %}?{% if filter %}filter={{ filter }}&{% endif %}page={{ page_obj.previous_page_number }}">&lt;&lt;</a>
+            {% endif %}
+            <span class="page-current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+               <a href="{% url 'listing-list' %}?{% if filter %}filter={{ filter }}&{% endif %}page={{ page_obj.next_page_number }}">&gt;&gt;</a>
+            {% endif %}
+         </span>
+      </div>
+   {% endif %}
+{% endblock content %}

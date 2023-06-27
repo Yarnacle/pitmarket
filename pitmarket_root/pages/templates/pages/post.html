@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+   {{ title }}
+{% endblock title %}
+{% block content %}
+   <a href="{% url 'blog' %}">&lt;&lt; Back</a>
+   <br />
+   <br />
+   <h1 class="page-title">{{ title }}</h1>
+   <p class="upload-date">{{ upload_date.date }}</p>
+   {% autoescape off %}
+      {{ content }}
+   {% endautoescape %}
+{% endblock content %}

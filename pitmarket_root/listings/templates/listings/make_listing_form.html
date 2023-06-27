@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+   Make a Listing
+{% endblock title %}
+{% block content %}
+   {% if submitted %}
+      <p class="success">Your listing was submitted.</p>
+   {% else %}
+      <form action="" method="post" enctype="multipart/form-data">
+         <table>
+            {{ form.as_table }}
+            <tr>
+               <td></td>
+               <td>
+                  <input type="submit" value="Submit" />
+               </td>
+            </tr>
+         </table>
+         {% csrf_token %}
+      </form>
+   {% endif %}
+{% endblock content %}
