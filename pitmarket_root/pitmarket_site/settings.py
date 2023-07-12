@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-from decouple import config
+from decouple import config as env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,12 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,7 +42,8 @@ INSTALLED_APPS = [
 	'listings.apps.ListingsConfig',
 	'taggit',
 	'defender',
-	'captcha'
+	'captcha',
+   'django_cleanup.apps.CleanupConfig'
 ]
 
 MIDDLEWARE = [
@@ -123,7 +123,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
+STATIC_ROOT = '/static/'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'pitmarket_site/static']
 
@@ -143,6 +143,7 @@ LOGOUT_REDIRECT_URL = '/'
 # DEFENDER_DISABLE_IP_LOCKOUT = True
 DEFENDER_DISABLE_USERNAME_LOCKOUT = True
 DEFENDER_LOCKOUT_TEMPLATE = 'registration/lockout.html'
+DEFENDER_REDIS_URL = "redis://redis:6379"
 
 CSP_DEFAULT_SRC = ("'self'")
 CSP_IMG_SRC = ("'self'")
@@ -152,5 +153,138 @@ CSP_SCRIPT_SRC_ELEM = ("'self'","'unsafe-inline'",'https://www.google.com/recapt
 CSP_FRAME_SRC = ('https://www.google.com/recaptcha/')
 CSP_INCLUDE_NONCE_IN = ['script-src','script-src-elem','style-src','frame-src']
 
-RECAPTCHA_PUBLIC_KEY = '6Lf0rwYiAAAAAHYEhG8PQ49lOeBW5aQNWo97utzP'
-RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_HSTS_SECONDS = 86400
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+#SECURE_CROSS_ORIGIN_OPENER_POLICY=None
+
+CSRF_TRUSTED_ORIGINS = ['http://instances.hary', 'http://104.243.37.239', "https://pitmarket.org", "https://www.pitmarket.org"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RECAPTCHA_PUBLIC_KEY = '6LeRuBYnAAAAAFS9MWORUW35jbvTH-A4MQQB2wuL'
+RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PRIVATE_KEY')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECRET_KEY = env("SECRET_KEY")
