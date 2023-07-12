@@ -1,0 +1,5 @@
+db
+uploads
+.prettierignore
+nginx/dhparam.pem
+.env
